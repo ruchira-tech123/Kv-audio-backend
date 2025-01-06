@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
+dotenv.config();
 export function registerUser(req,res){
     const data=req.body;
 
@@ -15,15 +16,8 @@ export function registerUser(req,res){
 
     }).catch((error)=>{
         res.status(500).json({error:"user registration failed"})
-
-
-    })
+    });
     
-    
-
-          
-
-
 }
 
 export function loginUser(req,res){
@@ -33,7 +27,7 @@ export function loginUser(req,res){
         email : data.email
     }).then(
         (user)=>{
-            if(user== null){
+            if(user == null){
                 res.status(404).json({error : "User not found"})
             }else{
                 
@@ -48,6 +42,7 @@ export function loginUser(req,res){
                         lastName: user.lastName,
                         email: user.email,
                         role: user.role,
+                        profilePicture: user.profilePicture
                     },process.env.JWT_SECRET);
                     res.json({message: "login successful", token: token});
                 }else{
